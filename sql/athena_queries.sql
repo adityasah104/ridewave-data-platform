@@ -1,10 +1,10 @@
 -- Step 1: Create your personal database
 -- (add YOUR_NAME to avoid conflicts with other students)
-CREATE DATABASE IF NOT EXISTS ridewave_raw_YOUR_NAME;
+CREATE DATABASE IF NOT EXISTS ridewave_raw_aditya_sah;
 
 -- Step 2: Create external table for rides
 -- (points to YOUR S3 folder — check the path carefully)
-CREATE EXTERNAL TABLE ridewave_raw_YOUR_NAME.rides (
+CREATE EXTERNAL TABLE ridewave_raw_aditya_sah.rides (
     ride_id      STRING,
     driver_id    STRING,
     customer_id  STRING,
@@ -23,7 +23,7 @@ LOCATION 's3://se-de-q1-26/DE-Training/Day10/YOUR_NAME/raw/rides/'
 TBLPROPERTIES ('skip.header.line.count'='1');
 
 -- Step 3: Create external table for drivers
-CREATE EXTERNAL TABLE ridewave_raw_YOUR_NAME.drivers (
+CREATE EXTERNAL TABLE ridewave_raw_aditya_sah.drivers (
     driver_id    STRING,
     driver_name  STRING,
     city         STRING,
@@ -56,7 +56,7 @@ SELECT
     city,
     COUNT(*)                   AS total_rides,
     ROUND(SUM(fare_amount), 2) AS total_revenue
-FROM ridewave_raw_YOUR_NAME.rides
+FROM ridewave_raw_aditya_sah.rides
 WHERE fare_amount IS NOT NULL
 GROUP BY city
 ORDER BY total_rides DESC;
@@ -66,7 +66,7 @@ ORDER BY total_rides DESC;
 SELECT
     ride_status,
     COUNT(*) AS count
-FROM ridewave_raw_YOUR_NAME.rides
+FROM ridewave_raw_aditya_sah.rides
 GROUP BY ride_status
 ORDER BY count DESC;
 
@@ -76,7 +76,7 @@ SELECT
     driver_id,
     COUNT(*)                   AS total_rides,
     ROUND(SUM(fare_amount), 2) AS total_earned
-FROM ridewave_raw_YOUR_NAME.rides
+FROM ridewave_raw_aditya_sah.rides
 WHERE fare_amount IS NOT NULL
 GROUP BY driver_id
 ORDER BY total_earned DESC
@@ -97,7 +97,7 @@ SELECT
         PARTITION BY city
         ORDER BY SUM(fare_amount) DESC
     ) AS city_rank
-FROM ridewave_raw_YOUR_NAME.rides
+FROM ridewave_raw_aditya_sah.rides
 WHERE fare_amount IS NOT NULL
 GROUP BY driver_id, city;
 
@@ -107,7 +107,7 @@ WITH monthly AS (
     SELECT
         DATE_TRUNC('month', CAST(ride_date AS DATE)) AS month,
         COUNT(*) AS ride_count
-    FROM ridewave_raw_YOUR_NAME.rides
+    FROM ridewave_raw_aditya_sah.rides
     GROUP BY 1
 )
 SELECT
@@ -123,13 +123,13 @@ ORDER BY month;
 -- Business use: Identify reliable high-volume drivers
 WITH completed_counts AS (
     SELECT driver_id, COUNT(*) AS total_rides
-    FROM ridewave_raw_YOUR_NAME.rides
+    FROM ridewave_raw_aditya_sah.rides
     GROUP BY driver_id
     HAVING COUNT(*) > 5
 ),
 completed_status AS (
     SELECT DISTINCT driver_id
-    FROM ridewave_raw_YOUR_NAME.rides
+    FROM ridewave_raw_aditya_sah.rides
     WHERE ride_status = 'completed'
 )
 SELECT
