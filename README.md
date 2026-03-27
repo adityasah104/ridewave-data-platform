@@ -1,6 +1,6 @@
 # RideWave Data Platform
 
-  **Student Name** : YOUR_NAME
+  **Student Name** : Aditya Sah
   **Batch**        : Sigmoid DE Bootcamp 2026
   **Date**         : March 2026
 
