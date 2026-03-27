@@ -36,6 +36,7 @@ def count_duplicates(data, key_column):
     values = [row[key_column] for row in data if key_column in row]
     return len(values) - len(set(values))
 
+
 def log_summary(table_name, row_count, null_report, dup_count):
     """
     Prints a formatted quality summary for any table.
